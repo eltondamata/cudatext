@@ -2,4 +2,5 @@
 !clips/
 !snippets_ct/
 snippets_ct/std.HTML/
+!buildsystems/
 !.gitignore
