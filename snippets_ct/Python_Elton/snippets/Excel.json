@@ -1,0 +1,50 @@
+{
+  "Atualizar arquivo": {
+    "prefix": "Excel",
+    "body": [
+      "#Atualiza arquivo excel",
+      "print('iniciando atualiza\u00e7\u00e3o do arquivo xlsx...')",
+      "from openpyxl import load_workbook",
+      "book = load_workbook(r'..\\KPI VendasDigitais.xlsx')",
+      "writer = pd.ExcelWriter(r'..\\KPI VendasDigitais.xlsx', engine='openpyxl') ",
+      "writer.book = book",
+      "writer.sheets = dict((ws.title, ws) for ws in book.worksheets)",
+      "planilha = 'KPIs'",
+      "ws = book[planilha]",
+      "for row in ws['A2:J38']:",
+      "  for cell in row:",
+      "    cell.value = None",
+      "dfxls = dffim",
+      "dfxls.to_excel(writer, sheet_name=planilha, startcol=0, startrow=1, header=False, index=False)",
+      "writer.save()",
+      "book.close()",
+      "print(\"KPI VendasDigitais.xlsx atualizado!\")"
+    ]
+  },
+  "Atualizar": {
+    "prefix": "Excel",
+    "body": [
+      "#Atualiza arquivo DRE_SIMTech.xlsx",
+      "from openpyxl import load_workbook",
+      "from openpyxl.utils.dataframe import dataframe_to_rows",
+      "wb = load_workbook(filename = r'..\\DRE_SIMTech.xlsx')",
+      "del wb['DRE_SIMTech']",
+      "ws = wb.create_sheet('DRE_SIMTech')",
+      "for r in dataframe_to_rows(dre[colunas], index=False, header=True):",
+      "    ws.append(r)",
+      "ws.cell(row=1, column=1, value=PNUMANOMES)",
+      "wb.save(filename = r'..\\DRE_SIMTech.xlsx')",
+      "print('DRE_SIMTech.xlsx -- arquivo atualizado com sucesso!!!')",
+      "wb.close()"
+    ]
+  },
+  "Consultar Sheets": {
+    "prefix": "Excel",
+    "body": [
+      "from openpyxl import load_workbook",
+      "wb = load_workbook(r'..\\DRE_SIMTech.xlsx')",
+      "print(wb.sheetnames)",
+      "wb.close()"
+    ]
+  }
+}

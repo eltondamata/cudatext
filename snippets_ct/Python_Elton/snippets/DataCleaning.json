@@ -1,0 +1,27 @@
+{
+  "Excluir Colunas": {
+    "prefix": "DataCleaning",
+    "body": [
+      "df.drop(columns=['VLRMRGCRB'], inplace=True)"
+    ]
+  },
+  "duplicated()": {
+    "prefix": "DataCleaning",
+    "body": [
+      "df[['CODGRPPRD', 'CODCTGPRD', 'CODDIVFRN', 'DESDIVFRN', 'CODFILEPD']].duplicated().any()"
+    ]
+  },
+  "info()": {
+    "prefix": "DataCleaning",
+    "body": [
+      "df.info()"
+    ]
+  },
+  "astype (change tochar)": {
+    "prefix": "DataCleaning",
+    "body": [
+      "df['colum'] = df['colum'].astype('int32')",
+      "df['colum'] = str(df['colum']) #to String"
+    ]
+  }
+}

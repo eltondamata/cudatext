@@ -1,0 +1,402 @@
+{
+  "Converte arquivo.txt (Largura Fixa) to csv": {
+    "prefix": "#Funcoes",
+    "body": [
+      "pd.read_fwf(r'arquivo.txt').to_csv(r'arquivo.csv', sep=\";\", encoding=\"iso-8859-1\", decimal=\",\", float_format='%.2f', date_format='%d/%m/%Y', index=False)"
+    ]
+  },
+  "NUMANOMES (mes anterior)": {
+    "prefix": "#Funcoes",
+    "body": [
+      "from dateutil.relativedelta import relativedelta",
+      "MESATU_fim = int((pd.to_datetime(\"today\") + relativedelta(months=-1)).strftime(\"%Y%m\")) #Mes Anterior"
+    ]
+  },
+  "Filter_Like": {
+    "prefix": "#Funcoes",
+    "body": [
+      "df[df['RAZAO_SOCIAL'].str.contains(\"MAGAZINE LUIZA\")]"
+    ]
+  },
+  "Filter_NaN": {
+    "prefix": "#Funcoes",
+    "body": [
+      "df[df['DIVNGC'].isnull()]"
+    ]
+  },
+  "Filtrar NaN": {
+    "prefix": "#Funcoes",
+    "body": [
+      "df.query('DESDIVFRN.isnull()')"
+    ]
+  },
+  "SQL": {
+    "prefix": "#Funcoes",
+    "body": [
+      "import pandas as pd",
+      "import sys",
+      "sys.path.insert(0, r'C:\\oracle\\dwh')",
+      "from OracleDWH import conn",
+      "pd.options.display.float_format = '{:,.2f}'.format",
+      "",
+      "mysql = (\"\"\"     ",
+      "select * from DWH.RLCOMRCMPOCDOPE FETCH FIRST 5 ROWS ONLY",
+      "  \"\"\")",
+      "df = pd.read_sql(mysql, con=conn)",
+      "conn.close()"
+    ]
+  },
+  "Sort_values": {
+    "prefix": "#Funcoes",
+    "body": [
+      "df.sort_values(by='VLRFAT', ascending=False)"
+    ]
+  },
+  "agate": {
+    "prefix": "#Funcoes",
+    "body": [
+      "arquivo = r'..\\file.xlsx'",
+      "column_arquivo = ['DESDRTCLLATU', 'DESCLLCMPATU', 'CODDIVFRN', 'CODUNDREG', 'CODESTCLI', 'POP']",
+      "data_type =      ['string',       'string',       'int32',     'int32',     'string',    'float']",
+      "table = agate.Table.from_xlsx(arquivo, sheet='Plan1').select(column_arquivo)",
+      "df = pd.DataFrame(table)",
+      "df = pd.DataFrame(table.rows, columns=table.column_names)",
+      "dic_dtype = dict(zip(column_arquivo, data_type))",
+      "df = df.astype(dtype=dic_dtype)"
+    ]
+  },
+  "concat; union all": {
+    "prefix": "#Funcoes",
+    "body": [
+      "df_full = pd.concat([omrcmp, df_full])"
+    ]
+  },
+  "count distinct (mais de uma coluna)": {
+    "prefix": "#Funcoes",
+    "body": [
+      "(df['CODGRPPRD'].astype(str)+df['CODCTGPRD'].astype(str)).nunique()"
+    ]
+  },
+  "eval (coluna calculada)": {
+    "prefix": "#Funcoes",
+    "body": [
+      "df_full.eval('VLRMRGCRB=VLRMRGBRT+VLRCSTMC', inplace=True)"
+    ]
+  },
+  "drop columns; erase; del; Excluir Colunas": {
+    "prefix": "#Funcoes",
+    "body": [
+      "df.drop(columns=['VLRMRGCRB'], inplace=True)"
+    ]
+  },
+  "float_format": {
+    "prefix": "#Funcoes",
+    "body": [
+      "pd.options.display.float_format = '{:,.2f}'.format"
+    ]
+  },
+  "left join where right is null": {
+    "prefix": "#Funcoes",
+    "body": [
+      "dfdif = pd.merge(df, dfsql[['NUMANOMESDIA', 'NUMNOTFSC', 'NUM_ORDEM', 'CODPRD']],  indicator='i', how='outer', on=['NUMANOMESDIA', 'NUMNOTFSC', 'NUM_ORDEM', 'CODPRD']).query('i == \"left_only\"').drop('i', 1)"
+    ]
+  },
+  "listar as colunas dataset": {
+    "prefix": "#Funcoes",
+    "body": [
+      "list(df.columns)"
+    ]
+  },
+  "listar registros unicos (colocar entre parenteses)": {
+    "prefix": "#Funcoes",
+    "body": [
+      "tuple(df['DESTIPCNLVNDOMR'].unique())"
+    ]
+  },
+  "max (maior string de um campo)": {
+    "prefix": "#Funcoes",
+    "body": [
+      "len(max(df['DESCTGPRD'], key=len))"
+    ]
+  },
+  "melt (Transpor de colunas pra linhas)": {
+    "prefix": "#Funcoes",
+    "body": [
+      "df = pd.melt(df, id_vars=['Produto'], #variaveis continuam nas colunas",
+      "  value_vars=['Fat','MB'], #colunas transpostas para linhas",
+      "  var_name='Medida', #nome da nova coluna",
+      "  value_name='Valor') #valor das colunas transpostas"
+    ]
+  },
+  "pivot (Transpor de linhas para colunas sem agrupar)": {
+    "prefix": "#Funcoes",
+    "body": [
+      "df.pivot(index=['DESDRTCLLATU', 'DESCTGPRD'], columns=['NOMMES'], values='VLRVNDFATLIQ')"
+    ]
+  },
+  "pivot_table (Transpor de linhas para colunas)": {
+    "prefix": "#Funcoes",
+    "body": [
+      "pd.pivot_table(df_full, values='DRIVER', index=['DESDRTCLLATU', 'DESCTGPRD', 'DESDIVFRN'],  columns=['MEDIDA'], aggfunc=sum)"
+    ]
+  },
+  "query isin": {
+    "prefix": "#Funcoes",
+    "body": [
+      "dftrf = df.query('CODDIVFRN in [95010,95036,95014,97608,96953,97605]')"
+    ]
+  },
+  "read_csv": {
+    "prefix": "#Funcoes",
+    "body": [
+      "df = pd.read_csv(r'..\\OMR 2022.csv', ';', encoding=\"iso-8859-1\", decimal=',')"
+    ]
+  },
+  "read_excel": {
+    "prefix": "#Funcoes",
+    "body": [
+      "df = pd.read_excel(r'd:/a/Plan_Operacional Diretorias CARGA.xlsx', 'VAREJO', skiprows = 6, nrows= 5, usecols = \"B:C,M:N,Q:R\")"
+    ]
+  },
+  "read_pickle": {
+    "prefix": "#Funcoes",
+    "body": [
+      "pd.read_pickle(r'..\\OMR_COMPRAS_POP.pkl')"
+    ]
+  },
+  "rename columns": {
+    "prefix": "#Funcoes",
+    "body": [
+      "ocdcmpmes.rename(columns={'CODDIVFRN':'CODFRN', 'MES':'NOMMES'}, inplace=True)"
+    ]
+  },
+  "replace": {
+    "prefix": "#Funcoes",
+    "body": [
+      "df['DESTIPCNLVNDOMR'].replace('E-F\u00c1CIL', 'EFACIL', inplace=True)"
+    ]
+  },
+  "sort_values": {
+    "prefix": "#Funcoes",
+    "body": [
+      ".sort_values(by='TIPCNL')"
+    ]
+  },
+  "string slice (cortar parte texto)": {
+    "prefix": "#Funcoes",
+    "body": [
+      "df['DESTIPCNLVNDOMR'].str.slice(7,13)",
+      "df['A'].str[:255]"
+    ]
+  },
+  "to_csv": {
+    "prefix": "#Funcoes",
+    "body": [
+      "df.to_csv(r'd:\\a\\CTGPRD.csv', sep=\";\", encoding=\"iso-8859-1\", decimal=\",\", float_format='%.2f', date_format='%d/%m/%Y', index=False)"
+    ]
+  },
+  "to_pickle": {
+    "prefix": "#Funcoes",
+    "body": [
+      "df.to_pickle('Export.pkl')"
+    ]
+  },
+  "to_string": {
+    "prefix": "#Funcoes",
+    "body": [
+      "print(df.to_string(float_format='%.2f', decimal=',', index=None))"
+    ]
+  },
+  "unique (select distinct)": {
+    "prefix": "#Funcoes",
+    "body": [
+      "df.drop_duplicates(['CODUNDNGCCLI','DESUNDNGCCLI'])[['CODUNDNGCCLI','DESUNDNGCCLI']]",
+      "df.loc[~df.CODDIVFRN.isin([95010,95036,95014,97608,96953,97605]) & df.CODFILEPD.isin([64]), ['CODFILEPD', 'DESCTGPRD']].drop_duplicates(['CODFILEPD', 'DESCTGPRD'])"
+    ]
+  },
+  "unique key (codigo e descricao mais recorrente)": {
+    "prefix": "#Funcoes",
+    "body": [
+      "#Garantir unique key dos codigos e pegar a descricao que tem mais quantidade de registros",
+      "drt = dim_compras[['CODDRTCLLATU', 'DESDRTCLLATU']].value_counts().reset_index().iloc[:,:-1]",
+      "drt.drop_duplicates(['CODDRTCLLATU'], keep='first', inplace=True)"
+    ]
+  },
+  "unique key (duplicated = False)": {
+    "prefix": "#Funcoes",
+    "body": [
+      "df[['CODGRPPRD', 'CODCTGPRD', 'CODDIVFRN', 'DESDIVFRN', 'CODFILEPD']].duplicated().any()"
+    ]
+  },
+  "Estrutura Tabelas (MRT DWH)": {
+    "prefix": "#Funcoes",
+    "body": [
+      "#Parametros da Consulta",
+      "table = 'T0311452'",
+      "owner = 'MRT'",
+      "",
+      "#importa\u00e7\u00e3o das bibliotecas python",
+      "import pandas as pd",
+      "import numpy as np",
+      "import sys",
+      "sys.path.insert(0, r'C:\\oracle\\dwh')",
+      "from OracleDWH_tscdsc import conn",
+      "pd.options.display.float_format = '{:,.2f}'.format",
+      "",
+      "#SQL",
+      "sql=(\"\"\" ",
+      "SELECT A.COLUMN_NAME, A.COMMENTS, B.DATA_TYPE, B.DATA_LENGTH, B.COLUMN_ID",
+      "FROM ALL_COL_COMMENTS A inner join all_tab_columns B ON A.OWNER = B.OWNER AND A.TABLE_NAME = B.TABLE_NAME AND A.COLUMN_NAME = B.COLUMN_NAME",
+      "WHERE A.TABLE_NAME = %s",
+      "AND A.OWNER = %s",
+      "ORDER BY B.COLUMN_ID",
+      "\"\"\")",
+      "#Formata parametros",
+      "filen = owner + '.' + table + '.csv'",
+      "table = \"'\" + table + \"'\"",
+      "owner = \"'\" + owner + \"'\"",
+      "",
+      "my_sql_query=(sql % (table, owner))",
+      "",
+      "#Executa e printscreen",
+      "print(pd.read_sql(my_sql_query, con=conn).to_string())",
+      "conn.close()"
+    ]
+  },
+  "criptografar": {
+    "prefix": "#Funcoes",
+    "body": [
+      "import base64",
+      "code = base64.b64encode(bytes('senha', 'utf-8'))",
+      "print(code)"
+    ]
+  },
+  "send_mail": {
+    "prefix": "#Funcoes",
+    "body": [
+      "import sys",
+      "sys.path.insert(0, r'C:\\oracle\\dwh')",
+      "from email.mime.text import MIMEText",
+      "from email.mime.multipart import MIMEMultipart",
+      "from email.mime.base import MIMEBase",
+      "from pretty_html_table import build_table",
+      "from envia_mail import server",
+      "from email import encoders",
+      "",
+      "address_book = ['elton.mata@martins.com.br']",
+      "sender = 'elton.mata@martins.com.br'",
+      "subject = \"Infla\u00e7\u00e3o Interna\"",
+      "tabela = build_table(df_full, 'blue_light', text_align='right')",
+      "",
+      "body = f\"\"\"<html><body><p>Infla\u00e7\u00e3o Interna acumulada 12 meses</p>",
+      "{tabela}",
+      "</body></html>",
+      "\"\"\"",
+      "#anexar arquivo",
+      "file = \"InflacaoInterna_Mensal.csv\"",
+      "attachment = open(file,'rb')",
+      "obj = MIMEBase('application','octet-stream')",
+      "obj.set_payload((attachment).read())",
+      "encoders.encode_base64(obj)",
+      "obj.add_header('Content-Disposition',\"attachment; filename= \"+file)",
+      "",
+      "msg = MIMEMultipart()",
+      "msg['From'] = sender",
+      "msg['To'] = ','.join(address_book)",
+      "msg['Subject'] = subject",
+      "msg.attach(MIMEText(body, 'html'))",
+      "msg.attach(obj)",
+      "text=msg.as_string()",
+      "server.sendmail(sender,address_book, text)",
+      "server.quit()"
+    ]
+  },
+  "rename index to None": {
+    "prefix": "#Funcoes",
+    "body": [
+      "df.index.name = None"
+    ]
+  },
+  "rename column to None": {
+    "prefix": "#Funcoes",
+    "body": [
+      "df.columns.name = None"
+    ]
+  },
+  "confere": {
+    "prefix": "Summary",
+    "body": [
+      "print('CANAL ATUAL')",
+      "pd.options.display.float_format = '{:,.2f}'.format",
+      "confere1 = df.groupby('CODCNLVND')[['VLRVNDFATLIQ', 'VLRRCTLIQAPU', 'VLRMRGBRT', 'VLRMRGCRB']].sum()",
+      "confere1.loc['TOTAL'] = confere1.sum()",
+      "print(confere1.to_string())",
+      "print('CANAL AJUSTADO')",
+      "pd.options.display.float_format = '{:,.2f}'.format",
+      "confere2 = df.groupby('CODCNLVND')[['VLRVNDFATLIQ', 'VLRRCTLIQAPU', 'VLRMRGBRT', 'VLRMRGCRB']].sum()",
+      "confere2.loc['TOTAL'] = confere2.sum()",
+      "print(confere2.to_string(), '\\n')",
+      "print('DIREFEREN\u00c7A (ATUAL - AJUSTADO)')",
+      "print(confere1-confere2)"
+    ]
+  },
+  "dict (inverter key item)": {
+    "prefix": "#Funcoes",
+    "body": [
+      "dicio = {x: y for y, x in dicio.items()}"
+    ]
+  },
+  "enumarate (DePara nommes)": {
+    "prefix": "#Funcoes",
+    "body": [
+      "DePara = enumerate(['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'], start=1)",
+      "DePara = dict(DePara)",
+      "DePara_inverso = {x: y for y, x in DePara.items()}"
+    ]
+  },
+  "set_index": {
+    "prefix": "#Funcoes",
+    "body": [
+      "df = df.set_index('NUMANOMESDIA')"
+    ]
+  },
+  "NUMANOMES (Acumulado ate Mes Anterior)": {
+    "prefix": "#Funcoes",
+    "body": [
+      "from dateutil.relativedelta import relativedelta",
+      "#FLGMESATU = 1 #(Acumulado ate mes atual)",
+      "FLGMESATU = 0 #(Acumulado ate mes anterior)",
+      "pNUMANOMESINI = int((pd.to_datetime(\"today\") + relativedelta(months=-1+FLGMESATU)).strftime(\"%Y\"))*100+1 #Mes de Jan do Ano atual",
+      "pNUMANOMESFIM = int((pd.to_datetime(\"today\") + relativedelta(months=-1+FLGMESATU)).strftime(\"%Y%m\")) #Mes Anterior",
+      "pNUMANOMESINIa = int((pd.to_datetime(\"today\") + relativedelta(months=-13+FLGMESATU)).strftime(\"%Y\"))*100+1 #Mes de Jan Ano anterior",
+      "pNUMANOMESFIMa = int((pd.to_datetime(\"today\") + relativedelta(months=-13+FLGMESATU)).strftime(\"%Y%m\")) #Mes Anterior do Ano Anterior"
+    ]
+  },
+  "NUMANOMES (Mes anterior ate dia 15 ou atual apos)": {
+    "prefix": "#Funcoes",
+    "body": [
+      "#MesAnterior (ate dia 15); MesAtual apos",
+      "if int(pd.to_datetime(\"today\").strftime(\"%d\")) < 15:",
+      "    ANOMES = int((pd.to_datetime(\"today\") + relativedelta(months=-1)).strftime(\"%Y%m\")) #Mes Anterior",
+      "else:",
+      "    ANOMES = int((pd.to_datetime(\"today\") + relativedelta(months=0)).strftime(\"%Y%m\")) #Mes Atual"
+    ]
+  },
+  "NUMANOMES (Ultimas 8 semanas)": {
+    "prefix": "#Funcoes",
+    "body": [
+      "from datetime import datetime, timedelta",
+      "",
+      "domingo = datetime.now() - timedelta(days = datetime.now().weekday()+1) #Ultimo Domingo",
+      "#segunda = datetime.now() - timedelta(days = datetime.now().weekday()+ (7*1)) #Segunda Semana anterior",
+      "segunda = datetime.now() - timedelta(days = datetime.now().weekday()+ (7*8) ) #Segunda de 8 semanas atras",
+      "print('segunda de 8 semanas atras:', segunda)",
+      "print('ultimo domingo:', domingo)",
+      "",
+      "ANOMESDIAini = int(segunda.strftime(\"%Y%m%d\"))",
+      "ANOMESDIAfim = int(domingo.strftime(\"%Y%m%d\"))",
+      "print('Periodo (Ultimas 8 semanas):', ANOMESDIAini, \"-\", ANOMESDIAfim)",
+      ""
+    ]
+  }
+}

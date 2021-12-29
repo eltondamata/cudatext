@@ -1,0 +1,23 @@
+{
+  "name": "Python_Elton",
+  "files": {
+    "Funcoes.json": [
+      "Python"
+    ],
+    "DePara.json": [
+      "Python"
+    ],
+    "Excel.json": [
+      "Python"
+    ],
+    "Summary.json": [
+      "Python"
+    ],
+    "DataCleaning.json": [
+      "Python"
+    ],
+    "Dimensoes.json": [
+      "Python"
+    ]
+  }
+}

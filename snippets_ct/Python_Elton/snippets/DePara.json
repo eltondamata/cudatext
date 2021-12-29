@@ -1,0 +1,19 @@
+{
+  "NUMANOMES > NOMMES": {
+    "prefix": "DePara",
+    "body": [
+      "NOMMES = 'Jan Fev Mar Abr Mai Jun Jul Ago Set Out Nov Dez'.split()",
+      "dic_NUMANOMES = dict(list(enumerate(NOMMES, start=202101)))",
+      "df['NOMMES'] = df['NUMANOMES'].map(dic_NUMANOMES)"
+    ]
+  },
+  "NOMMES > NUMANOMES": {
+    "prefix": "DePara",
+    "body": [
+      "NOMMES = 'Jan Fev Mar Abr Mai Jun Jul Ago Set Out Nov Dez'.split()",
+      "NUMANOMES = list(range(202201, 202213, 1))",
+      "dic_NOMMES = dict(zip(NOMMES, NUMANOMES))",
+      "df['NUMANOMES'] = df['NOMMES'].map(dic_NOMMES).astype(int)"
+    ]
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "TOTAL (incluir calculo %MB)": {
+    "prefix": "Summary",
+    "body": [
+      "df.eval('MB=(VLRMRGBRT/VLRRCTLIQAPU)*100', inplace=True) #calcula %MB no detalhe",
+      "dfngc.loc['TOTAL'] = dfngc.sum(axis=0)",
+      "df.loc['TOTAL', 'MB'] = df.loc['TOTAL','VLRMRGBRT']/df.loc['TOTAL', 'VLRRCTLIQAPU']*100"
+    ]
+  },
+  "TOTAL last columns": {
+    "prefix": "Summary",
+    "body": [
+      "df.loc[:,'TOTAL'] = df.iloc[:,-3:].sum(axis=1)"
+    ]
+  },
+  "TOTAL rows": {
+    "prefix": "Summary",
+    "body": [
+      "df.loc['TOTAL'] = df.sum(axis=0)"
+    ]
+  },
+  "sidetable (summary df pandas)": {
+    "prefix": "Summary",
+    "body": [
+      "import sidetable as stb",
+      "",
+      "df.groupby(['NUMANOMES']).agg({'VLRFATLIQ': ['sum']}).stb.subtotal()",
+      "df.stb.freq(['ABORDAGEM'], value='VLRFATLIQ')",
+      "df.stb.freq(['ABORDAGEM', 'CODESTUNI'], value='VLRFATLIQ')",
+      "df.stb.freq(['CODESTUNI'], value='VLRFATLIQ', thresh=80, other_label='OUTROS') #Lista Valor Faturamento dos estados que representam 80% do total e agrupa restante em outros",
+      "df.stb.missing()  #Lista missing NaN values no DataFrame",
+      "df.CODESTUNI.value_counts()[10:] #Contar 10 ultimos registros"
+    ]
+  },
+  "Transpor Coluna e totalizar colunas e linhas": {
+    "prefix": "Summary",
+    "body": [
+      "dfdia = df.groupby(['NUMANOMESDIA', 'TIPO_CANAL'])['FATURAMENTO'].sum().unstack()",
+      "dfdia.loc[:,'TOTAL'] = dfdia.iloc[:,-3:].sum(axis=1)",
+      "dfdia.loc['TOTAL'] = dfdia.sum(axis=0)",
+      "print(dfdia.to_markdown(tablefmt='github', floatfmt=',.2f'), '\\n')"
+    ]
+  }
+}
