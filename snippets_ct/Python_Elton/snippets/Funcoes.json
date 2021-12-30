@@ -398,5 +398,11 @@
       "print('Periodo (Ultimas 8 semanas):', ANOMESDIAini, \"-\", ANOMESDIAfim)",
       ""
     ]
+  },
+  "Create DataFrame": {
+    "prefix": "#Funcoes",
+    "body": [
+      "df = pd.DataFrame({'Coluna1':['A'], 'Coluna2':[1.0]})"
+    ]
   }
 }
