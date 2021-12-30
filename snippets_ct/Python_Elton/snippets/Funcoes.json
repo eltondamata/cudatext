@@ -192,7 +192,7 @@
   "to_csv": {
     "prefix": "#Funcoes",
     "body": [
-      "df.to_csv(r'd:\\a\\CTGPRD.csv', sep=\";\", encoding=\"iso-8859-1\", decimal=\",\", float_format='%.2f', date_format='%d/%m/%Y', index=False)"
+      "df.to_csv(r'..\\CTGPRD.csv', sep=\";\", encoding=\"iso-8859-1\", decimal=\",\", float_format='%.2f', date_format='%d/%m/%Y', index=False)"
     ]
   },
   "to_pickle": {
