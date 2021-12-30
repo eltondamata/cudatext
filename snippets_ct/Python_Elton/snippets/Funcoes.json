@@ -155,7 +155,7 @@
   "read_excel": {
     "prefix": "#Funcoes",
     "body": [
-      "df = pd.read_excel(r'd:/a/Plan_Operacional Diretorias CARGA.xlsx', 'VAREJO', skiprows = 6, nrows= 5, usecols = \"B:C,M:N,Q:R\")"
+      "df = pd.read_excel(r'..\\Plan_Operacional Diretorias CARGA.xlsx', 'VAREJO', skiprows = 6, nrows= 5, usecols = \"B:C,M:N,Q:R\")"
     ]
   },
   "read_pickle": {
