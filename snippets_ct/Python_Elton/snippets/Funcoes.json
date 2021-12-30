@@ -357,7 +357,7 @@
   "set_index": {
     "prefix": "#Funcoes",
     "body": [
-      "df = df.set_index('NUMANOMESDIA')"
+      "df=df.set_index('NUMANOMESDIA')"
     ]
   },
   "NUMANOMES (Acumulado ate Mes Anterior)": {
