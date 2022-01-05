@@ -404,5 +404,24 @@
     "body": [
       "df = pd.DataFrame({'Coluna1':['A'], 'Coluna2':[1.0]})"
     ]
+  },
+  "SQLite (read_sql to_sql)": {
+    "prefix": "#Funcoes",
+    "body": [
+      "import pandas as pd",
+      "import sys",
+      "sys.path.insert(0, r'C:\\oracle\\dwh')",
+      "from OracleDWH import conn",
+      "import sqlite3",
+      "conn_sqlite = sqlite3.connect('file.db')",
+      "",
+      "my_sql_query = (\"\"\"",
+      "SELECT * from dwh.RLCOMRCMPOCDOPE",
+      "\t\t\"\"\")",
+      "pd.read_sql(my_sql_query, con=conn).to_sql('rlcomrcmpocdope', conn_sqlite, if_exists='replace', index=False, chunksize=10000)",
+      "",
+      "conn.close()",
+      "conn_sqlite.close()"
+    ]
   }
 }
