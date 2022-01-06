@@ -423,5 +423,17 @@
       "conn.close()",
       "conn_sqlite.close()"
     ]
+  },
+  "Formatar decimal comma ,": {
+    "prefix": "#Funcoes",
+    "body": [
+      "def formatnumbers(x):",
+      "#    x = round(x, 2)",
+      "    x = str(x).replace('.', ',')",
+      "    return x",
+      "    ",
+      "for col in df.columns:",
+      "    df[col] =  df[col].apply(formatnumbers)"
+    ]
   }
 }
