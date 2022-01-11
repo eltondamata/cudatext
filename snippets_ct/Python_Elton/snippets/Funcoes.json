@@ -435,5 +435,67 @@
       "for col in df.columns:",
       "    df[col] =  df[col].apply(formatnumbers)"
     ]
+  },
+  "send_email (texto sem anexos)": {
+    "prefix": "#Funcoes",
+    "body": [
+      "#Envia apenas texto",
+      "import sys",
+      "sys.path.insert(0, r'C:\\oracle\\dwh')",
+      "from email.mime.text import MIMEText",
+      "from email.mime.multipart import MIMEMultipart",
+      "from envia_mail import server",
+      "",
+      "address_book = ['elton.mata@martins.com.br']",
+      "address_bookCC = ['elton.mata@martins.com.br']",
+      "sender = 'elton.mata@martins.com.br'",
+      "subject = \"Execu\u00e7\u00e3o eventual -- WADWH31B\"",
+      "",
+      "body = f\"\"\"<html><body>",
+      "<p>Solicito a execu\u00e7\u00e3o eventual do grupo WADWH31B que est\u00e1 na aplica\u00e7\u00e3o E_WA</p>",
+      "<p>Par\u00e2metro a ser informado <b>ANO = 2022</b></p>",
+      "",
+      "<p>",
+      "    Att, Elton<br />",
+      "    Planejamento, Controle e Gest\u00e3o<br />",
+      "    Ramal 1246",
+      "</p>",
+      "",
+      "</body></html>",
+      "\"\"\"",
+      "",
+      "msg = MIMEMultipart()",
+      "msg['From'] = sender",
+      "msg['To'] = ','.join(address_book)",
+      "msg['Cc'] = ','.join(address_bookCC)",
+      "msg['Subject'] = subject",
+      "msg.attach(MIMEText(body, 'html'))",
+      "text=msg.as_string()",
+      "server.sendmail(sender,address_book, text)",
+      "server.quit()"
+    ]
+  },
+  "NUMANOMES (mes anterior from datetime)": {
+    "prefix": "#Funcoes",
+    "body": [
+      "from datetime import date",
+      "from dateutil.relativedelta import relativedelta",
+      "",
+      "mesref = int((date.today() + relativedelta(months=-1)).strftime(\"%Y%m\")) #Mes Anterior"
+    ]
+  },
+  "Tempo_Execu\u00e7\u00e3o": {
+    "prefix": "#Funcoes",
+    "body": [
+      "import time",
+      "start = time.strftime(\"%b %d %Y %H:%M:%S\")",
+      "print(start, '--', time.strftime(\"%H:%M:%S\"))"
+    ]
+  },
+  "reset_index (erro feather serializing)": {
+    "prefix": "#Funcoes",
+    "body": [
+      "df.reset_index(drop=True, inplace=True)"
+    ]
   }
 }
