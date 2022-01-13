@@ -497,5 +497,11 @@
     "body": [
       "df.reset_index(drop=True, inplace=True)"
     ]
+  },
+  "Definir valor fixo em uma coluna (set value)": {
+    "prefix": "#Funcoes",
+    "body": [
+      "df.loc[df.RL_POP == 0,'PERMB'] = 0.23"
+    ]
   }
 }
