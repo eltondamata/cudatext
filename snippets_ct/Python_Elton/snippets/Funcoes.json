@@ -503,5 +503,49 @@
     "body": [
       "df.loc[df.RL_POP == 0,'PERMB'] = 0.23"
     ]
+  },
+  "NUMANOMESDIA (ultimo dia do mes)": {
+    "prefix": "NUMANOMESDIA (ultimo dia do mes)",
+    "body": [
+      "import datetime ",
+      "from dateutil.relativedelta import relativedelta",
+      "",
+      "ano = 2021",
+      "meses = list(range(1, 13, 1))",
+      "NUMANOMESDIA = [(datetime.datetime(2021, x, 1) + relativedelta(day=31)).strftime(\"%Y%m%d\") for x in meses]"
+    ]
+  },
+  "pivot_table (com linha de total)": {
+    "prefix": "#Funcoes",
+    "body": [
+      "dfpvt = pd.pivot_table(df, values='VLRFATLIQ', index=['CANALVENDAS'],  columns=['NUMANOMES'], aggfunc=sum)",
+      "dfpvt.loc['TOTAL'] = dfpvt.sum(axis=0)",
+      "dfpvt = dfpvt.reset_index()"
+    ]
+  },
+  "define o nome das colunas como string (para nao dar erro no export excel com xlsxwriter)": {
+    "prefix": "#Funcoes",
+    "body": [
+      "data = list(dfpvt.columns)",
+      "data = [''+ str(x) for x in data]",
+      "df.columns = data"
+    ]
+  },
+  "Export Excel (Formato Tabela xlsxwriter)": {
+    "prefix": "#Funcoes",
+    "body": [
+      "writer = pd.ExcelWriter('arquivo.xlsx', engine='xlsxwriter')",
+      "df.to_excel(writer, sheet_name='CANALVENDAS', startrow=1, header=False, index=False)",
+      "workbook = writer.book",
+      "format1 = workbook.add_format({'num_format': '#,##0.00'})",
+      "worksheet = writer.sheets['CANALVENDAS']",
+      "(max_row, max_col) = df.shape",
+      "column_settings = [{'header': column} for column in df.columns]",
+      "worksheet.add_table(0, 0, max_row, max_col - 1, {'columns': column_settings})",
+      "worksheet.set_column(0, 0, 40) #Posi\u00e7\u00e3o coluna inicial, posi\u00e7\u00e3o coluna final, largura coluna",
+      "worksheet.set_column(1, max_col - 1, 15) #15 = largura da coluna",
+      "worksheet.set_column(1, max_col - 1, 15, format1)",
+      "writer.save()"
+    ]
   }
 }
