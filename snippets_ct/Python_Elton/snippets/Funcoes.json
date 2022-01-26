@@ -547,5 +547,19 @@
       "worksheet.set_column(1, max_col - 1, 15, format1)",
       "writer.save()"
     ]
+  },
+  "create folder": {
+    "prefix": "#Funcoes",
+    "body": [
+      "import os",
+      "if not os.path.exists(caminho + '/bd'):",
+      "    os.makedirs(caminho + '/bd')"
+    ]
+  },
+  "concatenar codigo.descricao": {
+    "prefix": "#Funcoes",
+    "body": [
+      "df['PACOTE'] = list((''.join([x.zfill(3), '.', y])) for x, y in zip(df['CODPCTOCD'].astype(str),df['DESPCTOCD']))"
+    ]
   }
 }
