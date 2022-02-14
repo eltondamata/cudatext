@@ -320,7 +320,8 @@
   "rename column to None": {
     "prefix": "#Funcoes",
     "body": [
-      "df.columns.name = None"
+      "df.columns.name = None",
+      ".rename_axis(None, axis=1)"
     ]
   },
   "confere": {
@@ -560,6 +561,68 @@
     "prefix": "#Funcoes",
     "body": [
       "df['PACOTE'] = list((''.join([x.zfill(3), '.', y])) for x, y in zip(df['CODPCTOCD'].astype(str),df['DESPCTOCD']))"
+    ]
+  },
+  "Rename Columns in groupby with add_prefix": {
+    "prefix": "#Funcoes",
+    "body": [
+      "df.groupby('DAY')[['TTM','TTS']].mean().add_prefix('mean')"
+    ]
+  },
+  "Multiplicar colunas no groupby - assign": {
+    "prefix": "#Funcoes",
+    "body": [
+      "df.assign(TOTAL=df.eval('QDEITE * PRECO')).groupby(['NUMANOMES'])[['TOTAL']].sum()"
+    ]
+  },
+  "NUMANO from NUMANOMES (substr)": {
+    "prefix": "#Funcoes",
+    "body": [
+      "df['ANO'] = df['NUMANOMES'].astype('str').str[:4]"
+    ]
+  },
+  "SQL (SQLAlchemy)": {
+    "prefix": "#Funcoes",
+    "body": [
+      "import pandas as pd",
+      "from sqlalchemy import create_engine, Table, MetaData, select, func",
+      "engine = create_engine('oracle+cx_oracle://user:senha@dwh01', echo=False)",
+      "pd.options.display.float_format = '{:,.2f}'.format",
+      "",
+      "FTOOMR = Table('ftoocdmtzrctcmp', MetaData(), autoload_with=engine, schema='dwh')",
+      "DIMPOD = Table('dimpod', MetaData(), autoload_with=engine, schema='dwh')",
+      "DIMTIP = Table('dimtip', MetaData(), autoload_with=engine, schema='dwh')",
+      "DIMCNO = Table('dimcnoocd', MetaData(), autoload_with=engine, schema='dwh')",
+      "DIMFIL = Table('dimfil', MetaData(), autoload_with=engine, schema='dwh')",
+      "",
+      "qry = select(DIMPOD.c.numanomes",
+      "              , DIMFIL.c.codfil",
+      "              , DIMFIL.c.desfil",
+      "              , func.sum(FTOOMR.c.vlrvndfatliq).label(\"VLRVNDFATLIQ\")",
+      "              , func.sum(FTOOMR.c.vlrrctliqapu).label(\"VLRRCTLIQAPU\")",
+      "              , func.sum(FTOOMR.c.vlrmrgbrt).label(\"VLRMRGBRT\")",
+      "              , func.sum(FTOOMR.c.vlrmrgcrb).label(\"VLRMRGCRB\"))\\",
+      "          .join(DIMPOD, FTOOMR.c.srkpodref == DIMPOD.c.srkpod)\\",
+      "          .join(DIMTIP, FTOOMR.c.srktipopevnd == DIMTIP.c.srktip)\\",
+      "          .join(DIMCNO, FTOOMR.c.srkcnoocd == DIMCNO.c.srkcnoocd)\\",
+      "          .join(DIMFIL, FTOOMR.c.srkfil == DIMFIL.c.srkfil)\\",
+      "          .filter((DIMPOD.c.numanomes == 202202) ",
+      "                & (DIMTIP.c.codtip == 'FAT') ",
+      "                & (DIMCNO.c.codcnoocd == 'POP'))\\",
+      "          .group_by(DIMPOD.c.numanomes, DIMFIL.c.codfil, DIMFIL.c.desfil)",
+      "df = pd.read_sql_query(qry, engine)"
+    ]
+  },
+  "Groupby without index (as_index=False)": {
+    "prefix": "Groupby without index (as_index=False)",
+    "body": [
+      "df.groupby('col1', as_index=False).nunique()"
+    ]
+  },
+  "count distinct -- unique (coluna dataframe)": {
+    "prefix": "#Funcoes",
+    "body": [
+      "list(map(tuple, df.groupby('col1', as_index=False).nunique().values))"
     ]
   }
 }
