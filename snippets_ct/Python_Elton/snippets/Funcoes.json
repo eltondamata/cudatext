@@ -624,5 +624,11 @@
     "body": [
       "list(map(tuple, df.groupby('col1', as_index=False).nunique().values))"
     ]
+  },
+  "Rateio": {
+    "prefix": "#Funcoes",
+    "body": [
+      "df['PARTIC_PESOCUB'] = (df['PESO_ENTREGA'] / df.groupby(['CODFILLGT','CODCID'])['PESO_ENTREGA'].transform('sum'))"
+    ]
   }
 }
