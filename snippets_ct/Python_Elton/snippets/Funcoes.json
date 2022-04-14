@@ -630,5 +630,29 @@
     "body": [
       "df['PARTIC_PESOCUB'] = (df['PESO_ENTREGA'] / df.groupby(['CODFILLGT','CODCID'])['PESO_ENTREGA'].transform('sum'))"
     ]
+  },
+  "Substituir Negativos por Zero": {
+    "prefix": "Substituir Negativos por Zero",
+    "body": [
+      "df['col']=df['col'].apply(lambda x : 0 if x<0 else x)"
+    ]
+  },
+  "Converter nome colunas maiusculas (uppercase)": {
+    "prefix": "#Funcoes",
+    "body": [
+      "df.columns = list(df.columns.str.upper())"
+    ]
+  },
+  "Conferir_Total_(Transpose)": {
+    "prefix": "#Funcoes",
+    "body": [
+      "print(pd.DataFrame(df[['VLRTOTVNDPPS',  'VLRPPSMRGCRBVND', 'VLRRCTLIQAPUOCD',  'VLRMRGBRTOCD']].sum()).transpose().to_markdown(tablefmt='github', floatfmt=',.2f', index=False),'\\n')"
+    ]
+  },
+  "Conferir_Total_(Rename Column)": {
+    "prefix": "#Funcoes",
+    "body": [
+      "print(infodia.agg({'VLRTOTFAT':'sum', 'VLRPRVFAT': 'sum'}).rename({'VLRTOTFAT':'FAT_RLZ', 'VLRPRVFAT': 'FAT_POP'}))"
+    ]
   }
 }
