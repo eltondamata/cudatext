@@ -654,5 +654,50 @@
     "body": [
       "print(infodia.agg({'VLRTOTFAT':'sum', 'VLRPRVFAT': 'sum'}).rename({'VLRTOTFAT':'FAT_RLZ', 'VLRPRVFAT': 'FAT_POP'}))"
     ]
+  },
+  "Filter item dicionario": {
+    "prefix": "Filter item dicionario",
+    "body": [
+      "Dicionario.get('Item_key')"
+    ]
+  },
+  "Excluir Nulos (Drop NaN)": {
+    "prefix": "#Funcoes",
+    "body": [
+      "df = df.dropna()"
+    ]
+  },
+  "Eliminar Linhas NaN (dropna)": {
+    "prefix": "Eliminar Linhas NaN (dropna)",
+    "body": [
+      "df.dropna(inplace=True)"
+    ]
+  },
+  "Cross Join": {
+    "prefix": "#Funcoes",
+    "body": [
+      "dfdif = pd.merge(dfdif, sazao_total, how='cross')"
+    ]
+  },
+  "Filter by value_counts": {
+    "prefix": "#Funcoes",
+    "body": [
+      "df = df[df['NOMPLO'].isin(df['NOMPLO'].value_counts()[df['NOMPLO'].value_counts()==12].index)]"
+    ]
+  },
+  "File or Folder exist": {
+    "prefix": "#Functions",
+    "body": [
+      "import os",
+      "from pathlib2 import Path",
+      "",
+      "#caminho_file = Path(r\"X:\\PLANEJAMENTO\\2022\\11 Alteracao Estado AP CIF-FOB\\RLCOMRCMPOCDOPE_CARGA.pkl\")",
+      "caminho_folder = Path(r\"X:\\PLANEJAMENTO\\2022\\11 Alteracao Estado AP CIF-FOB\")",
+      "",
+      "if not caminho_folder.exists():",
+      "    print('arquivo n\u00e3o existe')",
+      "else:",
+      "    print('arquivo existe')"
+    ]
   }
 }
