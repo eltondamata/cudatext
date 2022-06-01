@@ -699,5 +699,20 @@
       "else:",
       "    print('arquivo existe')"
     ]
+  },
+  "query like": {
+    "prefix": "#funcoes",
+    "body": [
+      "df.query('DESEDEVND.str.contains(\"VENDEDOR CLT\") & CODCNLVND==10')",
+      "df.query('DESTIPCNLVNDOMR.str.startswith(\"OUTROS\")')",
+      "df.query('DESTIPCNLVNDOMR.str.endswith(\"CANAIS\")')",
+      "df.query('DESTIPCNLVNDOMR.str.match(\"OUTROS CANAIS\")')"
+    ]
+  },
+  "query between": {
+    "prefix": "#Funcoes",
+    "body": [
+      "df.query('CODFRN.between(97700,97799)')"
+    ]
   }
 }

@@ -11,7 +11,8 @@
       "writer.sheets = dict((ws.title, ws) for ws in book.worksheets)",
       "planilha = 'KPIs'",
       "ws = book[planilha]",
-      "for row in ws['A2:J38']:",
+      "qdelinhas = len(ws['A'])",
+      "for row in ws[f'A2:AR{qdelinhas}']:",
       "  for cell in row:",
       "    cell.value = None",
       "dfxls = dffim",
@@ -45,6 +46,34 @@
       "wb = load_workbook(r'..\\DRE_SIMTech.xlsx')",
       "print(wb.sheetnames)",
       "wb.close()"
+    ]
+  },
+  "Atualizar arquivo (Tabela)": {
+    "prefix": "#Excel",
+    "body": [
+      "print('Atualizando arquivo: FAT_EstruturaLogistica.xlsx')",
+      "from openpyxl import load_workbook",
+      "from openpyxl.worksheet.table import Table, TableStyleInfo",
+      "book = load_workbook('FAT_EstruturaLogistica.xlsx')",
+      "writer = pd.ExcelWriter('FAT_EstruturaLogistica.xlsx', engine='openpyxl') ",
+      "writer.book = book",
+      "writer.sheets = dict((ws.title, ws) for ws in book.worksheets) #mantem todas as sheets no arquivo",
+      "planilha = 'dataset'",
+      "ws = book[planilha]",
+      "del ws.tables[\"Tabela1\"] #Exclui tabela atual",
+      "qdelinhas = len(ws['A']) #qde de linhas da sheet",
+      "ws.delete_rows(1, qdelinhas) #exclui todas as linhas",
+      "ws.append(list(df.columns)) #adiciona headers",
+      "df.to_excel(writer, sheet_name=planilha, startcol=0, startrow=1, header=False, index=False) #adiciona os dados",
+      "qdelinhas = len(ws['A']) #qde de linhas carregadas na sheet",
+      "tab = Table(displayName=\"Tabela1\", ref=f'A1:AR{qdelinhas}') #Define nome e area da tabela",
+      "style = TableStyleInfo(name=\"TableStyleMedium9\", showFirstColumn=False,",
+      "                       showLastColumn=False, showRowStripes=True, showColumnStripes=False)",
+      "tab.tableStyleInfo = style #estilo da tabela",
+      "ws.add_table(tab) #adiciona tabela",
+      "writer.save()",
+      "book.close()",
+      "print(\"FAT_EstruturaLogistica.xlsx atualizado!\")"
     ]
   }
 }
