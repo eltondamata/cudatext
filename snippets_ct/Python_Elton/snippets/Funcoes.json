@@ -714,5 +714,30 @@
     "body": [
       "df.query('CODFRN.between(97700,97799)')"
     ]
+  },
+  "Export Excel (autofit column xslxwriter)": {
+    "prefix": "#Funcoes",
+    "body": [
+      "",
+      "def get_col_widths(dataframe):",
+      "    # First we find the maximum length of the index column   ",
+      "    idx_max = max([len(str(s)) for s in df.index.values] + [len(str(df.index.name))])",
+      "    # Then, we concatenate this to the max of the lengths of column name and its values for each column, left to right",
+      "    return [idx_max] + [max([len(str(s)) for s in df[col].values] + [len(col)]) for col in df.columns]",
+      "",
+      "writer = pd.ExcelWriter('O:/Projeto_CustoABC_2018/Modelo SAS/Modelo de Rentabilidade/Dimensoes/Estoque_FornecedorFilialComprador.xlsx', engine='xlsxwriter')",
+      "df.to_excel(writer, sheet_name='ESTOQUE', startrow=1, header=False, index=False)",
+      "workbook = writer.book",
+      "format1 = workbook.add_format({'num_format': '#,##0.00'})",
+      "worksheet = writer.sheets['ESTOQUE']",
+      "(max_row, max_col) = df.shape",
+      "column_settings = [{'header': column} for column in df.columns]",
+      "worksheet.add_table(0, 0, max_row, max_col - 1, {'columns': column_settings})",
+      "#worksheet.set_column(0, max_col - 1, 15) #15 = largura da coluna",
+      "for i, width in enumerate(get_col_widths(df)):",
+      "    worksheet.set_column(i-1, i-1, width+4)",
+      "worksheet.set_column(max_col - 1, max_col - 1, 15, format1)",
+      "writer.save()"
+    ]
   }
 }
